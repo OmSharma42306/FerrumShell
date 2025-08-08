@@ -1,6 +1,8 @@
 use std::io::stdin;
-use std::io::{self,Write};
 
+use std::io::{self,Write};
+use std::process::Command;
+// use std::vec;
 
 fn main() {
     let mut a : i32 = 1;
@@ -19,6 +21,29 @@ fn main() {
         print!("i am here");
         a = 0;
     }
+
+    // split input into commands and args
+    let parts : Vec<&str> = cmd.split_whitespace().collect();
+    let commands = parts[0];
+    let args = &parts[1..];
+
+    println!("Command : {} and args are : {:?}",commands,args);
+
+    let status  = Command::new(commands).args(args).status();
+
+    match status{
+        Ok(s) =>{
+            if !s.success(){
+                 eprintln!("Command exited with status: {:?}", s.code());
+            }   
+        }
+        Err(e) =>{
+             eprintln!("Error running command: {}", e);
+        }
+    }
+
+
+
     }
     
 
