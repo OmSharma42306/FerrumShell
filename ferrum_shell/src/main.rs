@@ -5,7 +5,9 @@ use std::process::Command;
 // use std::vec;
 
 fn main() {
-    
+
+    // stroing command history in history vector
+    let mut history : Vec<String> = Vec::new();
 
     loop {
         print!("fsh> ");
@@ -21,6 +23,9 @@ fn main() {
     if cmd.is_empty(){
         continue;
     }
+
+    // put an record of commands in command history.
+    history.push(cmd.clone());
     // split input into commands and args
     let parts : Vec<&str> = cmd.split_whitespace().collect();
     let commands = parts[0];
@@ -44,6 +49,10 @@ fn main() {
         continue;
     }else if commands == "exit"{
         std::process::exit(0);
+    }else if commands == "history"{
+        for c in &history{
+            println!("Command : {}",c);
+        }
     }
 
     println!("Command : {} and args are : {:?}",commands,args);
